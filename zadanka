@@ -37,3 +37,21 @@
 # 	samogliski = set("aeiouy")
 # 	return sum(1 for znak in zdanie.lower() if znak in samogliski)
 # print("siabadaba")
+#---------------------------------------------------------------------
+# def pali(s):
+# 	czyste_słowo = s.strip().lower()
+# 	odwrot = czyste_słowo[::-1]
+# 	if odwrot == czyste_słowo:
+# 		return("True")
+# 	else:
+# 		return("False")
+# s = input("wprowadź słowo do sprawdzenia: ")
+# print(pali(s))
+#---------------------------------------------------------------------
+def maska(słowo):
+	if len(słowo) <= 4:
+		return "*" * len(słowo)
+	return[0] + ("*" * (len(słowo) - 4)) + słowo[-4]
+
+słowo = input("podaj ciąg znaków do maskowania: ")
+print(maska(słowo))
