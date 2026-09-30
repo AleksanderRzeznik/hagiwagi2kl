@@ -15,6 +15,7 @@ zad 8
 SELECT imie, nazwisko, data_zatrudnienia FROM pracownicy WHERE data_zatrudnienia BETWEEN '2020-01-01' AND '2100-01-01';
 ZAD 9
 SELECT imie, nazwisko FROM klienci WHERE imie LIKE "a%";-- 10
+zad10
 SELECT nazwa, cena_sprzedazy
 FROM produkty
 WHERE jednostka_miary = 'szt'
