@@ -171,3 +171,61 @@ SELECT metoda_platnosci, AVG(kwota) AS srednia_kwota
 FROM Platnosci
 GROUP BY metoda_platnosci
 HAVING AVG(kwota) > 500;
+
+--27
+SELECT k.id_klienta, k.imie, k.nazwisko,
+COALESCE(f.liczba_faktur, 0) AS liczba_faktur,
+COALESCE(p.suma_platnosci, 0) AS suma_platnosci
+FROM Klienci k
+LEFT JOIN (
+    SELECT w.id_klienta, COUNT(f.id_faktury) AS liczba_faktur
+    FROM Wypozyczenia w
+    INNER JOIN Faktury f ON f.id_wypozyczenia = w.id_wypozyczenia
+    GROUP BY w.id_klienta
+) f ON f.id_klienta = k.id_klienta
+LEFT JOIN (
+    SELECT w.id_klienta, SUM(p.kwota) AS suma_platnosci
+    FROM Wypozyczenia w
+    INNER JOIN Faktury f ON f.id_wypozyczenia = w.id_wypozyczenia
+    INNER JOIN Platnosci p ON p.id_faktury = f.id_faktury
+    GROUP BY w.id_klienta
+) p ON p.id_klienta = k.id_klienta;
+
+-- 28
+SELECT f.*, p.id_platnosci, p.data_platnosci,
+p.kwota AS kwota_platnosci, p.metoda_platnosci
+FROM Faktury f
+LEFT JOIN Platnosci p ON p.id_faktury = f.id_faktury;
+
+-- 29
+SELECT k.*, o.id_opinii, o.id_samochodu,
+o.ocena, o.komentarz, o.data_opinii,
+s.marka, s.model
+FROM Klienci k
+LEFT JOIN Opinie o ON o.id_klienta = k.id_klienta
+LEFT JOIN Samochody s ON s.id_samochodu = o.id_samochodu;
+
+-- 30
+SELECT k.*, f.*
+FROM Klienci k
+LEFT JOIN Wypozyczenia w ON w.id_klienta = k.id_klienta
+LEFT JOIN Faktury f ON f.id_wypozyczenia = w.id_wypozyczenia;
+
+-- 31
+SELECT f.*, p.id_platnosci, p.data_platnosci,
+p.kwota AS kwota_platnosci, p.metoda_platnosci
+FROM Faktury f
+LEFT JOIN Platnosci p ON p.id_faktury = f.id_faktury;
+
+--32
+SELECT DISTINCT k.*
+FROM Klienci k
+INNER JOIN Wypozyczenia w ON w.id_klienta = k.id_klienta
+INNER JOIN Faktury f ON f.id_wypozyczenia = w.id_wypozyczenia
+INNER JOIN Platnosci p ON p.id_faktury = f.id_faktury
+WHERE p.metoda_platnosci = 'karta'
+AND EXISTS (
+    SELECT 1
+    FROM Opinie o
+    WHERE o.id_klienta = k.id_klienta
+);
