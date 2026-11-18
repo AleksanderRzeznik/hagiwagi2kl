@@ -27,13 +27,7 @@ Stay here (But why?)
 Why do you know where I sleep?
 Oh, I just know, I always know
 I'm close
-You might also like
-misery.
-pupsies
-Master of Humanity (Lord Verity)
-Horror Skunx
-Be My Friend (The Verity Band)
-Horror Skunx
+
 [Pre-Chorus]
 Do you live alone? Is anybody home?
 One, two, three and so, whеre did everybody go?
