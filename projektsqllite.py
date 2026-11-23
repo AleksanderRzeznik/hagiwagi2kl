@@ -4,61 +4,61 @@ conn = sqlite3.connect('biblioteka.db')
 
 cursor = conn.cursor()
 
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS ksiazki (
-        id_ksiazki INTEGER PRIMARY KEY,
-        tytul TEXT,
-        autor TEXT,
-        rok_wydania INTEGER
-    )
-''')
+def stworz_tabele():
+	cursor.execute('''
+    	CREATE TABLE IF NOT EXISTS ksiazki (
+        	id_ksiazki INTEGER PRIMARY KEY,
+        	tytul TEXT,
+        	autor TEXT,
+        	rok_wydania INTEGER
+	    )
+	''')
+stworz_tabele()
 
-def add():
+def dod():
     tytul = input("Podaj tytuł książki: ")
     autor = input("Podaj autora książki: ")
     wydanie = int(input("Podaj rok wydania książki: "))
 
     cursor.execute('''
     INSERT INTO ksiazki (tytul, autor, rok_wydania) VALUES (?, ?, ?)
-''', (tytul, autor, wydanie))
+	''', (tytul, autor, wydanie))
     
-conn.commit()
+    conn.commit()
     
-def delete():
+def dele():
     ksiazka = int(input("Podaj id książki: "))
 
     cursor.execute('''
     DELETE FROM ksiazki WHERE id_ksiazki = ?
-''', (ksiazka))
+	''', (ksiazka,))
     
-conn.commit()
+    conn.commit()
     
-def show():
+def see():
 
-    cursor.execute('SELECT * FROM users')
-rows = cursor.fetchall()
+    cursor.execute('SELECT * FROM ksiazki')
+    rows = cursor.fetchall()
 
-for row in rows:
-    print(row)
-    
-conn.commit()   
+    for row in rows:
+        print(row) 
 
 
-def update():
+def akt():
     tytul = input("Podaj tytuł książki: ")
-    id = int(input("Podaj id książki do zmiany: "))
+    id = int(input("Podaj id do zmienienia: "))
 
     cursor.execute('''
     UPDATE ksiazki SET tytul = ? WHERE id_ksiazki = ?
 ''', (tytul, id))
     
-conn.commit()   
+    conn.commit()   
 
 
 def menu():
     while True:
-        print("\n---------- BIBLIOTEKA ----------")
-        print("1. Dodaj książkę")
+        print("\n=-=-=-=-=-=-=-=-=- BIBLIOTEKA -=-=-=-=-=-=-=-=-=")
+        print("1. Dodaj nową książkę")
         print("2. Usuń książke")
         print("3. Wyświetl wszystkie książki")
         print("4. Zaktualizuj książkę")
@@ -67,15 +67,15 @@ def menu():
         wybor = input("\nWybierz opcję: ")
 
         if wybor == "1":
-            add()
+            dod()
         elif wybor == "2":
-            delete()
+            dele()
         elif wybor == "3":
-            show()
+            see()
         elif wybor == "4":
-            update()
+            akt()
         elif wybor == "5":
-            print("Dziękujemy za skorzystanie z biblioteki!")
+            print("Dziękujemy za skorzystanie z naszej biblioteki!")
             break
         else:
             print("Nie ma takiej opcji!")
